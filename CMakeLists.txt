@@ -24,6 +24,7 @@ set(GLFW_BUILD_TESTS OFF)
 set(GLFW_BUILD_DOCS OFF)
 set(GLFW_INSTALL OFF)
 FetchContent_Declare(glfw URL https://github.com/glfw/glfw/releases/download/${GLFW_VERSION}/glfw-${GLFW_VERSION}.zip)
+FetchContent_MakeAvailable(glfw)
 
 ###############################################################################
 # glfwpp
@@ -37,7 +38,11 @@ set(IMGUI_VERSION d666a1d4737739274449dbe0e8558454bba82ec4)
 FetchContent_Declare(imgui URL https://github.com/ocornut/imgui/archive/${IMGUI_VERSION}.zip)
 FetchContent_Populate(imgui)
 
-FetchContent_MakeAvailable(glfw)
+include(external/cmake-bin2h/bin2h.cmake)
+set(font_dir ${CMAKE_CURRENT_BINARY_DIR}/fonts)
+bin2h(SOURCE_FILE   ${imgui_SOURCE_DIR}/misc/fonts/DroidSans.ttf
+      HEADER_FILE   ${font_dir}/droidsans.h
+      VARIABLE_NAME "FONT_DROIDSANS")
 
 add_library(${PROJECT_NAME} STATIC
     external/glad/src/glad.c
@@ -48,6 +53,11 @@ add_library(${PROJECT_NAME} STATIC
     ${imgui_SOURCE_DIR}/imgui_draw.cpp
     ${imgui_SOURCE_DIR}/imgui_tables.cpp
     ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+    src/context.cpp
+    src/fonts.cpp
+    src/frame_scope.cpp
+    src/image.cpp
+    src/main_window.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
@@ -55,7 +65,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${glfwpp_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>)
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${font_dir}
+)
+target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 set_target_properties(${PROJECT_NAME} PROPERTIES EXPORT_NAME ${PROJECT_ALIAS})

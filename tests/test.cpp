@@ -6,6 +6,8 @@
 #include <mcpp/simpleui.hpp>
 #include <string>
 
+namespace ui = mcpp::simpleui;
+
 struct State {
     bool show_demo_window = true;
     bool show_another_window = false;
@@ -16,11 +18,10 @@ struct State {
 };
 
 auto main() -> int {
-    auto ctx = mcpp::simpleui::Context();
-    auto wnd = mcpp::simpleui::MainWindow();
+    auto ctx = ui::Context();
+    auto wnd = ui::MainWindow();
 
-    auto *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("DroidSans.ttf", 15);
-    // auto *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("FiraCode-Regular.ttf", 15);
+    ui::load_builtin_font(ui::BuiltinFontType::DroisSans, 16.0f);
 
     // Our state
     auto state = State();

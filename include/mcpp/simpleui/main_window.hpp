@@ -4,8 +4,6 @@
 
 #pragma once
 
-#define GLFW_INCLUDE_NONE
-
 #include <mcpp/simpleui/frame_scope.hpp>
 
 #include <glad/glad.h>
@@ -15,11 +13,6 @@
 #include <imgui_impl_opengl3.h>
 
 namespace mcpp::simpleui {
-
-class ImGuiHandle {
-  public:
-    explicit ImGuiHandle(const glfw::Window &window) {}
-};
 
 class MainWindow {
   private:
@@ -33,7 +26,6 @@ class MainWindow {
             throw std::runtime_error("Unable to initialize GLAD");
         }
         glfw::swapInterval(1);
-        auto imgui = ImGuiHandle(window_);
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         auto &io = ImGui::GetIO();
