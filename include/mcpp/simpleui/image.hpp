@@ -29,17 +29,20 @@ auto gl_call(Args &&...args) {
     }
 }
 
-inline auto create_texture(RGB24Image img) -> GLuint {
+inline auto create_texture(RGB24Image img, int max_mipmap_size = 512) -> GLuint {
     auto tex = GLuint{};
     gl_call<glGenTextures>(1, &tex);
     gl_call<glBindTexture>(GL_TEXTURE_2D, tex);
-    auto levels = 10;
-    for (int level = 0; level < levels; ++level) {
-        gl_call<glTexImage2D>(GL_TEXTURE_2D, level, GL_RGBA8, img.width, img.height, 0, GL_RGB, GL_UNSIGNED_BYTE,
-                              nullptr);
-    }
+    auto level = 0;
+    int width = img.width;
+    int height = img.height;
+    do {
+        gl_call<glTexImage2D>(GL_TEXTURE_2D, level++, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        width = img.width >> level;
+        height = img.height >> level;
+    } while (width > max_mipmap_size || height > max_mipmap_size);
     gl_call<glTexParameteri>(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-    gl_call<glTexParameteri>(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, levels - 1);
+    gl_call<glTexParameteri>(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, level - 1);
     gl_call<glPixelStorei>(GL_UNPACK_ALIGNMENT, 1);
     gl_call<glPixelStorei>(GL_UNPACK_ROW_LENGTH, 0);
     gl_call<glTexSubImage2D>(GL_TEXTURE_2D, 0, 0, 0, img.width, img.height, GL_RGB, GL_UNSIGNED_BYTE, img.data);
