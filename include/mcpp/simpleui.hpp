@@ -6,4 +6,5 @@
 
 #include <mcpp/simpleui/context.hpp>
 #include <mcpp/simpleui/frame_scope.hpp>
+#include <mcpp/simpleui/image.hpp>
 #include <mcpp/simpleui/main_window.hpp>
