@@ -4,6 +4,9 @@
 
 #pragma once
 
+// Work around missing include in glfwpp
+#include <utility>
+
 #include <glad/glad.h>
 #include <glfwpp/glfwpp.h>
 #include <imgui.h>

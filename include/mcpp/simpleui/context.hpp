@@ -4,6 +4,9 @@
 
 #pragma once
 
+// Work around missing include in glfwpp
+#include <utility>
+
 #include <glfwpp/glfwpp.h>
 
 namespace mcpp::simpleui {

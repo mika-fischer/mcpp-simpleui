@@ -4,6 +4,9 @@
 
 #pragma once
 
+// Work around missing include in glfwpp
+#include <utility>
+
 #include <mcpp/simpleui/frame_scope.hpp>
 
 #include <glad/glad.h>
