@@ -59,11 +59,13 @@ add_library(${PROJECT_NAME} STATIC
     src/image.cpp
     src/main_window.cpp
 )
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
     $<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
     $<BUILD_INTERFACE:${imgui_SOURCE_DIR}/backends>
     $<BUILD_INTERFACE:${glfwpp_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include>
+)
+target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     PRIVATE ${font_dir}
