@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.27)
 project(mcpp-simpleui)
 set(PROJECT_ALIAS mcpp::simpleui)
 
@@ -17,7 +17,7 @@ include(FetchContent)
 
 ###############################################################################
 # glfw
-set(GLFW_VERSION 3.3.7)
+set(GLFW_VERSION 3.3.8)
 set(BUILD_SHARED_LIBS OFF)
 set(GLFW_BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_TESTS OFF)
@@ -28,13 +28,13 @@ FetchContent_MakeAvailable(glfw)
 
 ###############################################################################
 # glfwpp
-set(GLFWPP_VERSION 207096552976035ae466382df6b5fc6905d06fbd)
+set(GLFWPP_VERSION 17b0ca06799fec64f63f5006fe45209ce33aace0)
 FetchContent_Declare(glfwpp URL https://github.com/janekb04/glfwpp/archive/${GLFWPP_VERSION}.zip)
 FetchContent_Populate(glfwpp)
 
 ###############################################################################
 # imgui (docking branch)
-set(IMGUI_VERSION d666a1d4737739274449dbe0e8558454bba82ec4)
+set(IMGUI_VERSION 2a6d7b1eaa1851e5b53d8c7a361a8d54f5a9ae8c)
 FetchContent_Declare(imgui URL https://github.com/ocornut/imgui/archive/${IMGUI_VERSION}.zip)
 FetchContent_Populate(imgui)
 
